@@ -1,59 +1,151 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🛋️ FurniStock – Sistem Manajemen Stok Toko Furniture
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+FurniStock adalah aplikasi web berbasis **Laravel** untuk mengelola data produk dan stok toko furniture secara rapi dan modern.  
+Project ini dibuat sebagai latihan **problem solving & CRUD** dengan tampilan UI yang mirip website premium.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Fitur Utama
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 1. Manajemen Produk Furniture
+- CRUD Produk (**Create, Read, Update, Delete**)
+- Data yang disimpan:
+  - Nama produk
+  - Kategori (Meja, Kursi, Lemari, dll.)
+  - Material (kayu, besi, dll.)
+  - Warna
+  - Ukuran
+  - Harga
+  - Minimal stok
+  - Stok saat ini
+- Upload foto produk:
+  - Format: `jpg`, `jpeg`, `png`, `webp`
+  - Maksimal ukuran file: 2 MB
+  - Ditampilkan sebagai thumbnail di daftar produk dan gambar besar di halaman detail
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 2. Manajemen Stok (Stock Transaction)
+- Mencatat **pergerakan stok** barang:
+  - Stok **Masuk** (Barang datang, restock, koreksi stok)
+  - Stok **Keluar** (Barang terjual, barang rusak, koreksi stok)
+- Fitur transaksi stok:
+  - Tambah transaksi stok
+  - Edit transaksi stok
+  - Hapus transaksi stok
+- Stok produk otomatis ter-update setiap ada:
+  - Penambahan transaksi baru
+  - Perubahan transaksi (edit)
+  - Penghapusan transaksi
 
-## Learning Laravel
+### 3. Perhitungan Stok Otomatis
+Setiap transaksi stok akan:
+- Menambah stok jika **type = in**
+- Mengurangi stok jika **type = out**
+- Saat edit transaksi:
+  - Efek transaksi lama dibatalkan dulu
+  - Lalu efek transaksi baru diterapkan
+- Saat hapus transaksi:
+  - Efek transaksi dikembalikan ke stok
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+### 4. Indikator Stok Menipis
+- Setiap produk punya field **minimal stok** (`min_stock`)
+- Jika `stock <= min_stock`:
+  - Ditandai dengan badge **“Stok Menipis”**
+  - Membantu pemilik toko tahu produk mana yang harus cepat di-restock
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### 5. UI/UX Premium
+- Tampilan dibuat modern dan rapi:
+  - Menggunakan **Bootstrap 5**
+  - Typography dengan **Google Font Poppins**
+  - Background gradient & card dengan efek shadow
+  - Card dengan hover effect (terangkat sedikit)
+- Layout:
+  - Navbar dengan menu: **Produk** dan **Transaksi Stok**
+  - Tabel responsif untuk daftar produk dan transaksi
+  - Form yang rapi dengan validation error di bagian atas
 
-## Laravel Sponsors
+---
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## 🧱 Teknologi yang Digunakan
 
-### Premium Partners
+- **Framework**: Laravel
+- **Bahasa**: PHP
+- **Database**: MySQL (via XAMPP)
+- **Front-End**:
+  - Blade Template Engine
+  - Bootstrap 5
+  - Google Fonts (Poppins)
+- **Lainnya**:
+  - Eloquent ORM
+  - Pagination
+  - Form Request Validation
+  - Storage link untuk upload gambar
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 📁 Struktur Fitur Utama
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Model
 
-## Code of Conduct
+- `Product`
+  - Relasi: `hasMany(StockTransaction::class)`
+  - Menyimpan data produk & stok
+- `StockTransaction`
+  - Relasi: `belongsTo(Product::class)`
+  - Menyimpan catatan keluar-masuk stok
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Controller
 
-## Security Vulnerabilities
+- `ProductController`
+  - `index` – daftar produk + search
+  - `create` / `store` – tambah produk + upload foto
+  - `edit` / `update` – edit produk + ganti foto
+  - `show` – detail produk + riwayat transaksi stok
+  - `destroy` – hapus produk + hapus foto
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- `StockTransactionController`
+  - `index` – daftar semua transaksi stok
+  - `create` / `store` – tambah transaksi stok (in/out)
+  - `edit` / `update` – edit transaksi & sesuaikan stok
+  - `destroy` – hapus transaksi & kembalikan stok produk
 
-## License
+---
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## 🚀 Cara Instalasi & Menjalankan Project
+
+### 0. Prasyarat
+
+Pastikan di komputer sudah terinstall:
+
+- PHP **8.1+**
+- [Composer](https://getcomposer.org/)
+- MySQL / MariaDB (misalnya dari **XAMPP**)
+- Git
+
+---
+
+### 1–7. Langkah Instalasi
+
+1. **Clone Repository**
+
+   ```bash
+   git clone https://github.com/berandalofficial-byte/furniture-stock.git
+   cd furniture-stock
+2. **Install Dependency Laravel**
+
+   ```bash
+   composer install
+3. **Salin & Atur File Environment**
+   '''bash
+   cp .env.example .env
+4.**Generate APP_KEY**
+   ```bash
+   php artisan key:generate
+5. **Migrasi Database**
+   ```bash
+   php artisan migrate
+6. **Buat Storage Link (untuk Foto Produk)**
+   ```bash
+   php artisan storage:link
+7. **Jalankan Development Server**
+   ```bash
+   php artisan serve
